@@ -14,6 +14,7 @@ BOOL readBinFile(const char* fileName, char** bufPtr, DWORD& length) // DWORD& l
 	}
 	else return false;
 }
+#define getNtHdr(buf) ((IMAGE_NT_HEADERS*)((size_t)buf + ((IMAGE_DOS_HEADER*)buf)->e_lfanew))
 int main()
 {
 	char* buf;
@@ -24,6 +25,8 @@ int main()
 		puts("[!] selected file not found.");
 		return 0;
 	}
-
+	// Get NT Header
+	IMAGE_DOS_HEADER* dosHdr = (IMAGE_DOS_HEADER*)buf;
+	IMAGE_NT_HEADERS* ntHdr = (IMAGE_NT_HEADERS*)(buf + dosHdr->e_lfanew);
 	// Get Import Address Table
 }
